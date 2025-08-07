@@ -93,7 +93,7 @@ def write_metrics_to_bigquery(algo_name, training_time, model_metrics):
         print("Error inserting metrics into BigQuery:", errors)
 
 def main():
-    input_data_path = "gs://mmw-mlops/bank_campaign_data/bank-additional.csv"
+    input_data_path = "gs://mmw-mlops/bank_campaign_data/bank-campaign-training-data.csv"
     model_name='xgboost'
     df = load_data(input_data_path)
     categorical_cols = ['job', 'marital', 'education', 'default', 'housing', 'loan', 'contact', 'month', 'day_of_week', 'poutcome']
