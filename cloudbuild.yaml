@@ -1,0 +1,25 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/june-madhukar-10sep-pwc/bank-campaign-model', '.']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/june-madhukar-10sep-pwc/bank-campaign-model']
+
+- name: 'gcr.io/june-madhukar-10sep-pwc/bank-campaign-model'
+  entrypoint: 'bash'
+  args:
+   - '-c'
+   - |
+      python -m pytest
+
+- name: 'gcr.io/cloud-builders/git'
+  args: ['clone', 'https://github.com/madhukarwakhare/GCP-Model-Training-CI-CD.git']
+
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['cp', 'GCP-Model-Training-CI-CD/bank_campaign_model_training.py', 'gs://us-central1-mlops-airflow-cf25b2be-bucket/dags']
+
+images:
+- 'gcr.io/june-madhukar-10sep-pwc/bank-campaign-model'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
